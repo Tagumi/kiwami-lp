@@ -803,6 +803,16 @@
       #cursor, #cursor-ring { display: none; }
       body { cursor: auto; }
       .btn-wa, .btn-wa-fill, .btn-insta { cursor: pointer; }
+      /* スマホではヒーロー以外のスクロール表示を非表示（コンテンツ重複防止） */
+      .sec-scroll-hint { display: none; }
+    }
+
+    /* 固定予約メニューの一時非表示 */
+    #fixed-reserve {
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    #fixed-reserve.fr-hidden {
+      opacity: 0; transform: translateY(20px); pointer-events: none;
     }
   </style>
 </head>
@@ -1450,6 +1460,29 @@
       setTimeout(() => loader.remove(), 800);
     }, 2200);
   });
+
+  // --- 固定予約メニューの一時非表示（初回数秒＋タッチ操作中） ---
+  (function() {
+    const fr = document.getElementById('fixed-reserve');
+    if (!fr) return;
+
+    // 1) 初回表示時：数秒間は隠す
+    fr.classList.add('fr-hidden');
+    let initialDone = false;
+    setTimeout(() => { fr.classList.remove('fr-hidden'); initialDone = true; }, 3500);
+
+    // 2) タッチ操作・スクロール中は隠し、操作が止まったら戻す
+    let hideTimer;
+    function hideDuringInteraction() {
+      if (!initialDone) return;          // 初回タイマー中は触らない
+      fr.classList.add('fr-hidden');
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => fr.classList.remove('fr-hidden'), 900);
+    }
+    window.addEventListener('touchstart', hideDuringInteraction, { passive: true });
+    window.addEventListener('touchmove',  hideDuringInteraction, { passive: true });
+    window.addEventListener('scroll',     hideDuringInteraction, { passive: true });
+  })();
 
   // --- Hero Slideshow ---
   (function() {
