@@ -803,8 +803,11 @@
       #cursor, #cursor-ring { display: none; }
       body { cursor: auto; }
       .btn-wa, .btn-wa-fill, .btn-insta { cursor: pointer; }
-      /* スマホではヒーロー以外のスクロール表示を非表示（コンテンツ重複防止） */
-      .sec-scroll-hint { display: none; }
+      /* スマホ: スクロール表示はセクション下部の余白内に収め、重複を防ぐ */
+      .sec-inner { padding-bottom: clamp(110px, 22vw, 160px); }
+      .sec-scroll-hint { bottom: 28px; left: 50%; transform: translateX(-50%); }
+      .sec-scroll-hint span { font-size: 8px; letter-spacing: 3px; }
+      .sec-scroll-hint .sh-line { height: 30px; }
     }
 
     /* 固定予約メニューの一時非表示 */
