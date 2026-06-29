@@ -337,15 +337,16 @@
     /* セクション左端の縦書きスクロールヒント（ヒーローと同位置） */
     .sec-scroll-hint {
       position: absolute; bottom: 40px; left: 5%;
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      opacity: .35; pointer-events: none;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      opacity: .85; pointer-events: none;
+      animation: scrollBounce 1.8s ease-in-out infinite;
     }
     .sec-scroll-hint span {
-      font-family: 'Cormorant Garamond', serif; font-size: 9px;
-      letter-spacing: 4px; writing-mode: vertical-rl;
+      font-family: 'Cormorant Garamond', serif; font-size: 11px;
+      letter-spacing: 5px; writing-mode: vertical-rl;
     }
     .sec-scroll-hint .sh-line {
-      width: 1px; height: 40px;
+      width: 1px; height: 56px;
     }
     .sec-washi .sec-scroll-hint span { color: var(--kin); }
     .sec-washi .sec-scroll-hint .sh-line { background: linear-gradient(to bottom, var(--kin), transparent); }
@@ -803,16 +804,19 @@
       #cursor, #cursor-ring { display: none; }
       body { cursor: auto; }
       .btn-wa, .btn-wa-fill, .btn-insta { cursor: pointer; }
-      /* スマホ: スクロール表示はセクション下部の余白内に収め、重複を防ぐ */
-      .sec-inner { padding-bottom: clamp(96px, 20vw, 140px); }
-      /* 左下（固定予約パネルと反対側）に配置して重複回避＋バウンスで強調 */
+      /* スマホ: 下余白を広げ、ヒントを横組みコンパクト化して重複回避 */
+      .sec-inner { padding-bottom: 130px; }
       .sec-scroll-hint {
-        bottom: 22px; left: 16px; transform: none;
-        opacity: .6;
+        bottom: 20px; left: 16px; transform: none;
+        flex-direction: column; align-items: center; gap: 6px;
+        opacity: .85;
         animation: scrollBounce 1.8s ease-in-out infinite;
       }
-      .sec-scroll-hint span { font-size: 8px; letter-spacing: 3px; }
-      .sec-scroll-hint .sh-line { height: 28px; }
+      .sec-scroll-hint span {
+        writing-mode: horizontal-tb;
+        font-size: 9px; letter-spacing: 4px;
+      }
+      .sec-scroll-hint .sh-line { height: 22px; }
     }
     @keyframes scrollBounce {
       0%, 100% { transform: translateY(0); opacity: .55; }
